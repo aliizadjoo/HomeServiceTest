@@ -1,0 +1,254 @@
+﻿using App.Domain.Core.Entities;
+using App.Domain.Core.Enums.OrderAgg;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace App.Infra.Db.SqlServer.Ef.Configurations.OrderAgg
+{
+    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    {
+        public void Configure(EntityTypeBuilder<Order> builder)
+        {
+
+            builder.Property(o => o.Description)
+           .IsRequired()
+           .HasMaxLength(1000);
+
+            builder.Property(o => o.Status)
+                .IsRequired()
+                .HasDefaultValue(OrderStatus.WaitingForProposals);
+
+            builder.Property(o => o.PaymentStatus)
+                .IsRequired()
+                .HasDefaultValue(PaymentStatus.Pending);
+
+
+            builder.Property(o => o.ExecutionDate)
+                .IsRequired();
+
+            builder.Property(o => o.ExecutionTime)
+                .IsRequired();
+
+            builder.HasOne(o => o.Customer)
+                .WithMany(c => c.Orders)
+                .HasForeignKey(o => o.CustomerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+            builder.HasOne(o => o.HomeService)
+                .WithMany(h => h.Orders)
+                .HasForeignKey(o => o.HomeServiceId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasData(
+
+       new Order
+       {
+           Id = 1,
+           CustomerId = 1,
+           HomeServiceId = 1,
+           CityId = 1,
+           Description = "نظافت آپارتمان ۸۰ متری، دو خوابه",
+           Status = OrderStatus.Finished,
+           PaymentStatus = PaymentStatus.Pending,
+           ExecutionDate = new DateTime(2025, 2, 1),
+           ExecutionTime = new TimeSpan(10, 0, 0),
+           CreatedAt = new DateTime(2025, 1, 10),
+           IsDeleted = false
+       },
+
+       new Order
+       {
+           Id = 2,
+           CustomerId = 2,
+           HomeServiceId = 3,
+           CityId = 1,
+           Description = "یخچال ساید بای ساید صدای ناهنجار می‌دهد",
+           Status = OrderStatus.WaitingForProposals,
+           PaymentStatus = PaymentStatus.Pending,
+           ExecutionDate = new DateTime(2025, 2, 5),
+           ExecutionTime = new TimeSpan(14, 30, 0),
+           CreatedAt = new DateTime(2025, 1, 15),
+           IsDeleted = false
+       },
+
+       new Order
+       {
+           Id = 3,
+           CustomerId = 3,
+           HomeServiceId = 2,
+           CityId = 2,
+           Description = "سرویس کامل کولر آبی برای فصل جدید",
+           Status = OrderStatus.Finished,
+           PaymentStatus = PaymentStatus.Pending,
+           ExecutionDate = new DateTime(2025, 1, 20),
+           ExecutionTime = new TimeSpan(9, 0, 0),
+           CreatedAt = new DateTime(2025, 1, 5),
+           IsDeleted = false
+       },
+
+       new Order
+       {
+           Id = 4,
+           CustomerId = 4,
+           HomeServiceId = 4,
+           CityId = 3,
+           Description = "شستشوی کامل پژو ۲۰۶ در پارکینگ منزل",
+           Status = OrderStatus.Cancelled,
+           PaymentStatus = PaymentStatus.Pending,
+           ExecutionDate = new DateTime(2025, 2, 10),
+           ExecutionTime = new TimeSpan(16, 0, 0),
+           CreatedAt = new DateTime(2025, 1, 20),
+           IsDeleted = false
+       },
+
+       new Order
+       {
+           Id = 5,
+           CustomerId = 5,
+           HomeServiceId = 7,
+           CityId = 1,
+           Description = "هرس درختان حیاط و کاشت گل‌های فصلی",
+           Status = OrderStatus.Finished,
+           PaymentStatus = PaymentStatus.Pending,
+           ExecutionDate = new DateTime(2025, 3, 1),
+           ExecutionTime = new TimeSpan(8, 0, 0),
+           CreatedAt = new DateTime(2025, 2, 10),
+           IsDeleted = false
+       },
+
+            new Order
+            {
+                Id = 6,
+                CustomerId = 6,
+                HomeServiceId = 6,
+                CityId = 4,
+                Description = "جابجایی اثاثیه به ساختمان مجاور، طبقه سوم با آسانسور",
+                Status = OrderStatus.Started,
+                PaymentStatus = PaymentStatus.Pending,
+                ExecutionDate = new DateTime(2025, 3, 15),
+                ExecutionTime = new TimeSpan(11, 0, 0),
+                CreatedAt = new DateTime(2025, 2, 20),
+                IsDeleted = false
+            },
+            new Order
+            {
+                Id = 7,
+                CustomerId = 2,
+                HomeServiceId = 1,
+                CityId = 1,
+                Description = "نظافت کامل واحد ۱۲۰ متری",
+                Status = OrderStatus.Finished,
+                PaymentStatus = PaymentStatus.Pending,
+                ExecutionDate = new DateTime(2025, 3, 8),
+                ExecutionTime = new TimeSpan(9, 0, 0),
+                CreatedAt = new DateTime(2025, 3, 1),
+                IsDeleted = false
+            },
+
+    new Order
+    {
+        Id = 8,
+        CustomerId = 4,
+        HomeServiceId = 4,
+        CityId = 3,
+        Description = "کارواش کامل خودرو در محل",
+        Status = OrderStatus.Finished,
+        PaymentStatus = PaymentStatus.Pending,
+        ExecutionDate = new DateTime(2025, 3, 12),
+        ExecutionTime = new TimeSpan(16, 0, 0),
+        CreatedAt = new DateTime(2025, 3, 5),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 9,
+        CustomerId = 6,
+        HomeServiceId = 6,
+        CityId = 4,
+        Description = "تعمیر ماشین لباسشویی دیجیتال",
+        Status = OrderStatus.Finished,
+        PaymentStatus = PaymentStatus.Pending,
+        ExecutionDate = new DateTime(2025, 3, 18),
+        ExecutionTime = new TimeSpan(11, 0, 0),
+        CreatedAt = new DateTime(2025, 3, 10),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 10,
+        CustomerId = 1,
+        HomeServiceId = 2,
+        CityId = 1,
+        Description = "سرویس دوره‌ای کولر آبی",
+        Status = OrderStatus.Finished,
+        PaymentStatus = PaymentStatus.Pending,
+        ExecutionDate = new DateTime(2025, 3, 20),
+        ExecutionTime = new TimeSpan(10, 30, 0),
+        CreatedAt = new DateTime(2025, 3, 12),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 11,
+        CustomerId = 3,
+        HomeServiceId = 7,
+        CityId = 2,
+        Description = "طراحی فضای سبز حیاط ویلا",
+        Status = OrderStatus.Finished,
+        PaymentStatus = PaymentStatus.Pending,
+        ExecutionDate = new DateTime(2025, 3, 22),
+        ExecutionTime = new TimeSpan(8, 0, 0),
+        CreatedAt = new DateTime(2025, 3, 15),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 12,
+        CustomerId = 5,
+        HomeServiceId = 3,
+        CityId = 1,
+        Description = "تعمیر یخچال ساید بای ساید",
+        Status = OrderStatus.Finished,
+        PaymentStatus = PaymentStatus.Pending,
+        ExecutionDate = new DateTime(2025, 3, 25),
+        ExecutionTime = new TimeSpan(14, 0, 0),
+        CreatedAt = new DateTime(2025, 3, 18),
+        IsDeleted = false
+    },
+
+    new Order
+    {
+        Id = 13,
+        CustomerId = 2,
+        HomeServiceId = 1,
+        CityId = 1,
+        Description = "نظافت فوری واحد اداری",
+        Status = OrderStatus.Finished,
+        PaymentStatus = PaymentStatus.Pending,
+        ExecutionDate = new DateTime(2025, 3, 28),
+        ExecutionTime = new TimeSpan(9, 30, 0),
+        CreatedAt = new DateTime(2025, 3, 20),
+        IsDeleted = false
+    }
+
+
+
+
+   );
+
+
+
+            builder.HasQueryFilter(o => !o.IsDeleted);
+        }
+    }
+}

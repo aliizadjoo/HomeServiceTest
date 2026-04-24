@@ -16,7 +16,7 @@ namespace App.Domain.Core.Entities
 
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-
+        public List<Order> Orders { get; set; } = [];
         public List<ExpertHomeService> ExpertHomeServices { get; set; } = [];
 
     }

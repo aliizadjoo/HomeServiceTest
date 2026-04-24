@@ -1,7 +1,38 @@
+using App.Domain.Core.Configurations;
+using App.Domain.Core.Entities;
+using App.Framework;
+using App.Infra.Db.SqlServer.Ef;
+using App.Infra.Db.SqlServer.Ef.DbContextAgg;
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var siteSetting = builder.Configuration.GetSection("SiteSetting").Get<SiteSetting>();
+
+builder.Services.AddSingleton<SiteSetting>(siteSetting);
+
+builder.Services.AddDbContextServices(siteSetting);
+
+builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 3;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+
+    options.SignIn.RequireConfirmedAccount = false;
+
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
+
+    options.User.AllowedUserNameCharacters = null;
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders()
+.AddErrorDescriber<PersianIdentityErrorDescriber>();
 
 var app = builder.Build();
 

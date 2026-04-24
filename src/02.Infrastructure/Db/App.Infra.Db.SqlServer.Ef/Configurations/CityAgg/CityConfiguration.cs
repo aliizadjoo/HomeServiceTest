@@ -1,0 +1,27 @@
+﻿using App.Domain.Core.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace App.Infra.Db.SqlServer.Ef.Configurations.CityAgg
+{
+    public class CityConfiguration : IEntityTypeConfiguration<City>
+    {
+        public void Configure(EntityTypeBuilder<City> builder)
+        {
+            builder.Property(c => c.CityName).IsRequired().HasMaxLength(50);
+            builder.HasQueryFilter(c => !c.IsDeleted);
+
+            builder.HasData(
+              new City { Id = 1, CityName = "تهران", CreatedAt = new DateTime(2025, 1, 1) },
+              new City { Id = 2, CityName = "کرج", CreatedAt = new DateTime(2025, 1, 1) },
+              new City { Id = 3, CityName = "شیراز", CreatedAt = new DateTime(2025, 1, 1) },
+              new City { Id = 4, CityName = "اصفهان", CreatedAt = new DateTime(2025, 1, 1) }
+             );
+        }
+    }
+}
