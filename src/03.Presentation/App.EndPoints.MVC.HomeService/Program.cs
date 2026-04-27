@@ -4,8 +4,16 @@ using App.Framework;
 using App.Infra.Db.SqlServer.Ef;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
 using Microsoft.AspNetCore.Identity;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+
+    configuration.ReadFrom.Configuration(context.Configuration);
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
