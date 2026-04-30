@@ -1,0 +1,90 @@
+﻿@using App.EndPoints.MVC.HomeService.Areas.Identity.Models
+@model UserRegisterViewModel
+@{
+    ViewData["Title"] = "ثبت‌نام سریع";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h5 class="mb-0">ایجاد حساب کاربری</h5>
+                </div>
+                <div class="card-body p-4">
+
+                    <form asp-area="Identity" asp-controller="Account" asp-action="Register" method="post">
+
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label fw-bold"></label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label fw-bold"></label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label asp-for="Email" class="form-label fw-bold"></label>
+                                <input asp-for="Email" class="form-control" placeholder="example@mail.com" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Password" class="form-label fw-bold"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ConfirmPassword" class="form-label fw-bold"></label>
+                                <input asp-for="ConfirmPassword" class="form-control" />
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label asp-for="Role" class="form-label fw-bold">نقش در سامانه</label>
+                                <select asp-for="Role" class="form-select">
+                                    <option value="">--- انتخاب کنید ---</option>
+                                    <option value="Customer">مشتری</option>
+                                    <option value="Expert">متخصص</option>
+                                </select>
+                                <span asp-validation-for="Role" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label asp-for="CityId" class="form-label fw-bold"></label>
+                                <select asp-for="CityId" class="form-select"
+                                        asp-items="@(new SelectList(ViewBag.Cities, "Id", "CityName"))">
+                                    <option value="">--- انتخاب شهر ---</option>
+                                </select>
+                                <span asp-validation-for="CityId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">تأیید و ثبت‌نام</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center py-3 bg-light">
+                    <span class="text-muted small">عضو هستید؟ <a asp-action="Login" class="text-decoration-none">ورود به حساب</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

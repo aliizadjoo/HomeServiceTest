@@ -1,13 +1,22 @@
+using App.Domain.AppServices.AccountAgg.Validations;
 using App.Domain.Core.Configurations;
 using App.Domain.Core.Entities;
+using App.Domain.Services;
 using App.Framework;
+using App.Infra.Cache.Contract;
+using App.Infra.Cache.InMemoryCache;
+using App.Infra.Data.Repos.Dapper;
+using App.Infra.Data.Repos.Ef;
 using App.Infra.Db.SqlServer.Ef;
 using App.Infra.Db.SqlServer.Ef.DbContextAgg;
+using FluentValidation;
+using App.Infra.Cache;
 using Microsoft.AspNetCore.Identity;
+using App.Domain.AppServices;
 using Serilog;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Host.UseSerilog((context, configuration) =>
 {
@@ -17,11 +26,20 @@ builder.Host.UseSerilog((context, configuration) =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
 var siteSetting = builder.Configuration.GetSection("SiteSetting").Get<SiteSetting>();
 
 builder.Services.AddSingleton<SiteSetting>(siteSetting);
 
 builder.Services.AddDbContextServices(siteSetting);
+
+builder.Services.AddReposEfServices();
+builder.Services.AddReposDapperServices();
+builder.Services.AddDomainServices();
+builder.Services.AddRegisterCacheServices();
+builder.Services.AddDomainAppServices();
+
 
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 {
@@ -42,6 +60,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 .AddDefaultTokenProviders()
 .AddErrorDescriber<PersianIdentityErrorDescriber>();
 
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,6 +78,11 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 
 app.MapControllerRoute(
     name: "default",
