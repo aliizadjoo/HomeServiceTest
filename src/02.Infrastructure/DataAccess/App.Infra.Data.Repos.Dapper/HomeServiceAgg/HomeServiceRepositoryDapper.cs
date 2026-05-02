@@ -37,7 +37,7 @@ namespace App.Infra.Data.Repos.Dapper.HomeServiceAgg
                 _cacheService.SetSliding<List<HomeServiceDto>>(CacheKeys.HomeServices, HomeServiceDtos, 30);
 
                 return HomeServiceDtos;
-
+                
             }
 
         }

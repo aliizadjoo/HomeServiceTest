@@ -1,0 +1,41 @@
+﻿@using App.Domain.Core.Dtos.AdminAgg
+@model AdminsPagedDto
+
+@{
+    ViewData["Title"] = "مدیریت مشتریان";
+}
+
+@if (Model != null && Model.AdminsDto.Any())
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>نام</th>
+                <th>نام خانوادگی</th>
+                <th>شماره موبایل</th>
+                <th>کدپرسنلی</th>              
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.AdminsDto)
+            {
+                <tr>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>@user.StaffCode</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary">ویرایش</a>
+                        <a class="btn btn-sm btn-primary">تغییر رمز</a>
+                        <a class="btn btn-sm btn-primary">حذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning">هیچ مشتری برای نمایش یافت نشد.</div>
+}

@@ -1,8 +1,10 @@
-﻿using App.Domain.Core.Contracts.CategoryAgg.Repository;
+﻿using App.Domain.Core.Contracts.AdminAgg.Repository;
+using App.Domain.Core.Contracts.CategoryAgg.Repository;
 using App.Domain.Core.Contracts.CityAgg.Repository;
 using App.Domain.Core.Contracts.CustomerAgg.Repository;
 using App.Domain.Core.Contracts.ExpertAgg.Repository;
 using App.Domain.Core.Contracts.HomeServiceAgg.Repository;
+using App.Infra.Data.Repos.Ef.AdminAgg;
 using App.Infra.Data.Repos.Ef.CategoryAgg;
 using App.Infra.Data.Repos.Ef.CityAgg;
 using App.Infra.Data.Repos.Ef.CustomerAgg;
@@ -27,8 +29,8 @@ namespace App.Infra.Data.Repos.Ef
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IExpertRepository, ExpertRepository>();
             services.AddScoped<IHomeServiceRepository, HomeServiceRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
 
-        
         }
     }
 }

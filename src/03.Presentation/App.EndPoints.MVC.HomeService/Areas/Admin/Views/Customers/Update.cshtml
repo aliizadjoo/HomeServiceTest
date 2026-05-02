@@ -1,0 +1,84 @@
+﻿@model App.EndPoints.MVC.HomeService.Areas.Admin.Models.UpdateCustomerViewModel
+
+@{
+    ViewData["Title"] = "ویرایش مشتری";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Update" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            
+            <input type="hidden" asp-for="AppUserId" />
+            <input type="hidden" asp-for="ExistingImagePath" />
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CityId" class="control-label"></label>
+                <select asp-for="CityId" class="form-control" asp-items="@(new SelectList(Model.Cities, "Id", "CityName"))">
+                    <option value="">-- انتخاب شهر --</option>
+                </select>
+                <span asp-validation-for="CityId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <textarea asp-for="Address" class="form-control"></textarea>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WalletBalance" class="control-label"></label>
+                <input asp-for="WalletBalance" class="form-control" />
+                <span asp-validation-for="WalletBalance" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NewProfileImage" class="control-label">تصویر پروفایل جدید</label>
+                <input asp-for="NewProfileImage" class="form-control" type="file" />
+                <span asp-validation-for="NewProfileImage" class="text-danger"></span>
+            </div>
+
+            @{
+                
+                var imagePath = !string.IsNullOrEmpty(Model.ExistingImagePath)
+                ? $"~/Images/Customers/{Model.ExistingImagePath}"
+                : "~/Images/default-avatar.jpg";
+            }
+
+            <div class="form-group">
+                <label>تصویر فعلی:</label>
+                <img src="@Url.Content(imagePath)" class="img-thumbnail" style="max-width: 150px;" alt="تصویر پروفایل" />
+            </div>
+
+
+            <div class="form-group mt-3">
+                <input type="submit" value="ذخیره تغییرات" class="btn btn-primary" />
+                <a asp-controller="User" asp-action="Customers" class="btn btn-secondary">انصراف</a>
+            </div>
+        </form>
+    </div>
+</div>

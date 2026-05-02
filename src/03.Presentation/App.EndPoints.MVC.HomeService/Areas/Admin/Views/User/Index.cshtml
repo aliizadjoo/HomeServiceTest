@@ -1,0 +1,59 @@
+﻿@using App.Domain.Core.Enums.UserAgg
+@using App.EndPoints.MVC.HomeService.Areas.Admin.Models
+@model UserIndexViewModel
+
+@{
+    ViewData["Title"] = "مدیریت کاربران";
+}
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">@ViewData["Title"]</h5>
+
+            <div class="btn-group" role="group">
+                <a asp-action="Customers" class="btn @(Model.ActiveRole == UserRole.Customer ? "btn-primary" : "btn-outline-primary")">مشتریان</a>
+                <a asp-action="Experts" class="btn @(Model.ActiveRole == UserRole.Expert ? "btn-primary" : "btn-outline-primary")">متخصصان</a>
+                <a asp-action="Admins" class="btn @(Model.ActiveRole == UserRole.Admin ? "btn-primary" : "btn-outline-primary")">ادمین‌ها</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        }
+        <p>
+            <a asp-action="Create" class="btn btn-success">افزودن کاربر جدید</a>
+        </p>
+
+        @switch (Model.ActiveRole)
+        {
+            case UserRole.Customer:
+                <partial name="_CustomerListPartial" model="Model.Customers" />
+                break;
+            case UserRole.Expert:
+                <partial name="_ExpertListPartial" model="Model.Experts" />
+                break;
+            case UserRole.Admin:
+                <partial name="_AdminListPartial" model="Model.Admins" />
+                break;
+        }
+    </div>
+
+    <div class="card-footer">
+        @if (Model.TotalPages > 0)
+        {
+            <partial name="_PaginationPartial" model="Model" />
+        }
+    </div>
+</div>

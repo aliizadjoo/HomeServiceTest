@@ -17,7 +17,6 @@ namespace App.Domain.Core.Entities
         public City City { get; set; }
         public List<ExpertHomeService> ExpertHomeServices { get; set; } = [];
         public List<Proposal> Proposals { get; set; } = [];
-
         public List<Review> Reviews { get; set; } = [];
 
     }

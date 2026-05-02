@@ -3,5 +3,6 @@
     public static class AreaConstants
     {
         public const string Identity = "Identity";
+        public const string Admin = "Admin";
     }
 }
